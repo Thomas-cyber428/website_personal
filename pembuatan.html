@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservasi Tiket Thoms Air</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2,
+      h3 {
+        text-align: center;
+      }
+      table {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        padding: 8px;
+        text-align: center;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .result {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Reservasi Tiket Thoms Air</h2>
+      <h3>Daftar Penerbangan</h3>
+      <table>
+        <tr>
+          <th>Kode Penerbangan</th>
+          <th>Tujuan</th>
+          <th>Harga Tiket</th>
+        </tr>
+        <tr>
+          <td>TA01</td>
+          <td>AS</td>
+          <td>Rp. 1.500.000</td>
+        </tr>
+        <tr>
+          <td>TA02</td>
+          <td>JPN</td>
+          <td>Rp. 1.400.000</td>
+        </tr>
+        <tr>
+          <td>TA03</td>
+          <td>US</td>
+          <td>Rp. 1.300.000</td>
+        </tr>
+        <tr>
+          <td>TA04</td>
+          <td>CHN</td>
+          <td>Rp. 1.200.000</td>
+        </tr>
+      </table>
+
+      <form id="formTiket">
+        <label for="nama">Nama Pembeli:</label>
+        <input type="text" id="nama" required /><br /><br />
+
+        <label for="nomor">Nomor Handphone:</label>
+        <input type="text" id="nomor" required /><br /><br />
+
+        <label for="asal">Asal Kota:</label>
+        <input type="text" id="asal" required /><br /><br />
+
+        <label for="jurusan">Kode Tujuan:</label>
+        <input type="text" id="jurusan" required /><br /><br />
+
+        <label for="jumlah">Jumlah Tiket:</label>
+        <input type="number" id="jumlah" required /><br /><br />
+
+        <button type="button" onclick="hitungTotal()">
+          Hitung Total Pembayaran
+        </button>
+      </form>
+
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      function hitungTotal() {
+        const nama = document.getElementById("nama").value;
+        const nomor = document.getElementById("nomor").value;
+        const asal = document.getElementById("asal").value;
+        const jurusan = document.getElementById("jurusan").value.toUpperCase();
+        const jumlah = parseInt(document.getElementById("jumlah").value);
+
+        let tujuan = "";
+        let harga = 0;
+
+        // Tentukan tujuan dan harga tiket berdasarkan kode tujuan
+        if (jurusan === "TA01") {
+          tujuan = "AMERIKA SERIKAT";
+          harga = 1500000;
+        } else if (jurusan === "TA02") {
+          tujuan = "JEPANG";
+          harga = 1400000;
+        } else if (jurusan === "TA03") {
+          tujuan = "AUSTRALIA";
+          harga = 1300000;
+        } else if (jurusan === "TA04") {
+          tujuan = "CHINA";
+          harga = 1200000;
+        } else {
+          document.getElementById("result").innerHTML =
+            "<p>Kode tujuan salah, silakan coba lagi.</p>";
+          return;
+        }
+
+        // Hitung potongan harga jika jumlah tiket >= 3
+        const potongan = jumlah >= 3 ? jumlah * harga * 0.3 : 0;
+        const totalBayar = jumlah * harga - potongan;
+
+        // Tampilkan hasil
+        document.getElementById("result").innerHTML = `
+            <h3>Rincian Pembayaran</h3>
+            <p>Nama: ${nama}</p>
+            <p>Nomor Handphone: ${nomor}</p>
+            <p>Asal Kota: ${asal}</p>
+            <p>Tujuan: ${tujuan}</p>
+            <p>Jumlah Tiket: ${jumlah}</p>
+            <p>Harga Tiket: Rp. ${harga.toLocaleString()}</p>
+            <p>Potongan Harga: Rp. ${potongan.toLocaleString()}</p>
+            <h4>Total Pembayaran: Rp. ${totalBayar.toLocaleString()}</h4>
+        `;
+      }
+    </script>
+  </body>
+</html>
